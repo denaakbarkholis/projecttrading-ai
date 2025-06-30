@@ -79,7 +79,7 @@ export default function Login({ onGoToSignUp }: LoginPageProps) {
             const { data, error } = await supabase.auth.signInWithOAuth({
             provider: "google",
             options: {
-                redirectTo: `${window.location.origin}/dashboard`, // ✅ gunakan window.location.origin untuk menjamin kesesuaian
+                redirectTo: `${window.location.origin}/login`,
             },
             });
 
