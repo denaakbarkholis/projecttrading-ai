@@ -3,41 +3,39 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-client";
-import Login from "@/components/login/page";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [authHandled, setAuthHandled] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    const handleOAuthRedirect = async () => {
-      const supabase = createClient();
+    const supabase = createClient();
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get("code");
+    if (!code) {
+      router.replace("/");
+      return;
+    }
 
+    const processLogin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
 
-      if (!session && code) {
+      if (!session) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
-
         if (error) {
-          console.error("Error exchanging code:", error.message);
+          console.error("OAuth error:", error.message);
+          router.replace("/"); // Jika gagal, kembalikan ke /
         } else {
           router.push("/dashboard");
         }
-      } else if (session) {
-        // Sudah login → langsung ke dashboard
+      } else {
         router.push("/dashboard");
       }
-
-      setAuthHandled(true);
     };
 
-    handleOAuthRedirect();
+    processLogin();
   }, [router]);
 
-  if (!authHandled) return <div className="p-4 text-center">Logging in...</div>;
-
-  return <Login onGoToSignUp={() => router.push("/register")} />;
+  return null;
 }
