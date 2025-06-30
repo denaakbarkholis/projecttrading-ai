@@ -25,8 +25,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import LoginPage from "@/app/login/page"
-import SignUpPage from "@/app/signup/page"
+import Login from "@/components/login/page"
+import SignUp from "@/components/signup/page"
 import useAuth from "@/lib/auth"
 import { useRouter } from "next/navigation"
 
@@ -129,9 +129,9 @@ export default function AITradingLanding() {
               <DialogContent className="max-w-xl h-[90%]">
                 <DialogTitle>{viewLogin === "signin" ? "Sign In" : "Sign Up"}</DialogTitle>
                 {viewLogin === "signin" ? (
-                  <LoginPage onGoToSignUp={() => setViewLogin("signup")} />
+                  <Login onGoToSignUp={() => setViewLogin("signup")} />
                 ) : (
-                  <SignUpPage onGoToSignIn={() => setViewLogin("signin")} />
+                  <SignUp onGoToSignIn={() => setViewLogin("signin")} />
                 )}
               </DialogContent>
             </Dialog>
@@ -375,9 +375,9 @@ export default function AITradingLanding() {
                 <DialogContent className="max-w-xl h-[90%]">
                   <DialogTitle>{viewLogin === "signin" ? "Sign In" : "Sign Up"}</DialogTitle>
                   {viewLogin === "signin" ? (
-                    <LoginPage onGoToSignUp={() => setViewLogin("signup")} />
+                    <Login onGoToSignUp={() => setViewLogin("signup")} />
                   ) : (
-                    <SignUpPage onGoToSignIn={() => setViewLogin("signin")} />
+                    <SignUp onGoToSignIn={() => setViewLogin("signin")} />
                   )}
                 </DialogContent>
               </Dialog>
